@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-InkWell ParentComment({
+Widget ParentComment({
   required String content,
   required String image,
   required String username,

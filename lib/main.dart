@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'comment.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -94,13 +96,16 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            ParentComment(
+              content: 'شهرام',
+              image:
+                  'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+              username: 'فرجی',
+              id: '1',
+              index: 1,
+              dateData: {},
+              onTap: (username, id, index) {},
+            )
           ],
         ),
       ),
