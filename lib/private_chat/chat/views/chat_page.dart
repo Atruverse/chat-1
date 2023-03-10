@@ -2,6 +2,8 @@ import 'package:chat/private_chat/chat/views/chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controller/chat_controller.dart';
+
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 
@@ -12,10 +14,10 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  // final controller = Get.put<DialogController>(DialogController());
+  final controller = Get.put<ChatController>(ChatController());
   @override
   void initState() {
-    // controller.getDialogs();
+    controller.getMessages();
     super.initState();
   }
 
@@ -30,7 +32,7 @@ class _ChatPageState extends State<ChatPage> {
         extendBody: true,
         key: _scaffoldKey,
         appBar: AppBar(
-          title: const Center(child: Text('Dialogs')),
+          title: const Center(child: Text('Chat')),
         ),
         body: const ChatView(),
       ),

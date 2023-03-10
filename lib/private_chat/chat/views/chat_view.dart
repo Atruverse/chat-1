@@ -1,16 +1,20 @@
 import 'package:chat/private_chat/chat/views/widgets/own_msg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controller/chat_controller.dart';
 import 'widgets/other_msg_widget.dart';
 
 class ChatView extends StatelessWidget {
-  const ChatView({super.key});
-
+  ChatView({super.key});
+  final controller = Get.find<ChatController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [_buildChatCard(context), _buildSendMsg()],
-    );
+    return Obx(() => controller.initailLoaing.value
+        ? const CircularProgressIndicator()
+        : Column(
+            children: [_buildChatCard(context), _buildSendMsg()],
+          ));
   }
 
   Widget _buildSendMsg() {
@@ -41,25 +45,21 @@ class ChatView extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: ListView(
+        child: ListView.builder(
           shrinkWrap: true,
-          children: const [
-            OwnMsgWidget(
+          itemCount: controller.chatList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return OwnMsgWidget(
                 imageUrl:
                     'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',
-                msgText: 'hello how are you',
-                userName: 'shahram'),
-            OtherMsgWidget(
-                imageUrl:
-                    'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',
-                msgText: 'hello how are you',
-                userName: 'sharam'),
-            OtherMsgWidget(
-                imageUrl:
-                    'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',
-                msgText: 'hello how are you',
-                userName: 'sharam'),
-          ],
+                msgText: controller.chatList[index].text!,
+                userName: controller.chatList[index].sender.toString());
+            // OtherMsgWidget(
+            //     imageUrl:
+            //         'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',
+            //     msgText:  controller.chatList[index].text!,
+            //     userName: controller.chatList[index].sender.toString()),
+          },
         ),
       ),
     );
