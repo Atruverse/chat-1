@@ -4,35 +4,39 @@ class DialogWidget extends StatelessWidget {
   const DialogWidget(
       {super.key,
       required this.name,
-      required this.status,
+      required this.lastMessage,
       required this.imageUrl});
   final String name;
-  final String status;
+  final String lastMessage;
   final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: const Color(0XFFFFFFFF),
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.1),
-            blurRadius: 1.0,
-            offset: const Offset(0.0, 1.0),
-          )
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
-        child: Row(
-          children: [
-            _buildImage(),
-            const SizedBox(width: 8),
-            _buildNameColumn()
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+        height: 70,
+        width: MediaQuery.of(context).size.width - 16,
+        decoration: BoxDecoration(
+          color: const Color(0XFFFFFFFF),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.1),
+              blurRadius: 1.0,
+              offset: const Offset(0.0, 1.0),
+            )
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              _buildImage(),
+              const SizedBox(width: 8),
+              _buildNameColumn()
+            ],
+          ),
         ),
       ),
     );
@@ -49,7 +53,7 @@ class DialogWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          status,
+          lastMessage,
           style: const TextStyle(fontSize: 12, color: Color(0XFF979797)),
         ),
       ],
@@ -71,12 +75,14 @@ class DialogWidget extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(43)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(43),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.fill,
-                height: 55,
-                width: 55,
-              ),
+              child: imageUrl.isNotEmpty
+                  ? Image.network(
+                      imageUrl,
+                      fit: BoxFit.fill,
+                      height: 55,
+                      width: 55,
+                    )
+                  : const Icon(Icons.person, size: 50),
             ),
           ),
         ),
