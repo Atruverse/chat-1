@@ -2,6 +2,7 @@ import 'package:chat/private_chat/dialog/controller/dialog_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../chat/views/chat_page.dart';
 import 'widgets/dialog_widget.dart';
 
 class DialogView extends StatelessWidget {
@@ -30,6 +31,9 @@ class DialogView extends StatelessWidget {
                         ? controller
                             .dialogModel.value!.results![index].userInfo!.image!
                         : "",
+                onTap: () {
+                  Get.to(() => const ChatPage());
+                },
               );
             },
           ));

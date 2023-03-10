@@ -5,28 +5,33 @@ class DialogWidget extends StatelessWidget {
       {super.key,
       required this.name,
       required this.lastMessage,
-      required this.imageUrl});
+      required this.imageUrl,
+      this.onTap});
   final String name;
   final String lastMessage;
   final String imageUrl;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      width: MediaQuery.of(context).size.width - 16,
-      decoration: BoxDecoration(
-        color: const Color(0XFFFFFFFF),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
-        child: Row(
-          children: [
-            _buildImage(),
-            const SizedBox(width: 8),
-            _buildNameColumn()
-          ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 70,
+        width: MediaQuery.of(context).size.width - 16,
+        decoration: BoxDecoration(
+          color: const Color(0XFFFFFFFF),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              _buildImage(),
+              const SizedBox(width: 8),
+              _buildNameColumn()
+            ],
+          ),
         ),
       ),
     );
