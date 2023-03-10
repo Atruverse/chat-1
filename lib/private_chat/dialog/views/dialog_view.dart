@@ -1,26 +1,37 @@
+import 'package:chat/private_chat/dialog/controller/dialog_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'widgets/dialog_widget.dart';
 
 class DialogView extends StatelessWidget {
-  const DialogView({super.key});
-
+  DialogView({super.key});
+  final controller = Get.find<DialogController>();
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 20,
-      itemBuilder: (BuildContext context, int index) {
-        return const Padding(
-          padding: EdgeInsets.only(top: 8.0),
-          child: DialogWidget(
-            name: 'shahram',
-            lastMessage: 'last seen 2 minute ago',
-            imageUrl:
-                'https://dayanshop.com/blog/wp-content/uploads/2020/06/bahram-radan-1.jpg',
-          ),
-        );
-      },
-    );
+    return Obx(() => controller.initailLoaing.value
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.dialogModel.value!.results!.length,
+            itemBuilder: (BuildContext context, int index) {
+              return DialogWidget(
+                name: controller.dialogModel.value!.results![index].userInfo !=
+                        null
+                    ? controller
+                        .dialogModel.value!.results![index].userInfo!.userName!
+                    : '',
+                lastMessage: 'last seen 2 minute ago',
+                imageUrl:
+                    controller.dialogModel.value!.results![index].userInfo !=
+                            null
+                        ? controller
+                            .dialogModel.value!.results![index].userInfo!.image!
+                        : "",
+              );
+            },
+          ));
   }
 }

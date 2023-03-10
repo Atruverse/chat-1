@@ -12,31 +12,21 @@ class DialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Container(
-        height: 70,
-        width: MediaQuery.of(context).size.width - 16,
-        decoration: BoxDecoration(
-          color: const Color(0XFFFFFFFF),
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.1),
-              blurRadius: 1.0,
-              offset: const Offset(0.0, 1.0),
-            )
+    return Container(
+      height: 70,
+      width: MediaQuery.of(context).size.width - 16,
+      decoration: BoxDecoration(
+        color: const Color(0XFFFFFFFF),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0),
+        child: Row(
+          children: [
+            _buildImage(),
+            const SizedBox(width: 8),
+            _buildNameColumn()
           ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Row(
-            children: [
-              _buildImage(),
-              const SizedBox(width: 8),
-              _buildNameColumn()
-            ],
-          ),
         ),
       ),
     );
