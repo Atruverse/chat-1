@@ -17,7 +17,7 @@ class _DialogPageState extends State<DialogPage> {
   final controller = Get.put<DialogController>(DialogController());
   @override
   void initState() {
-    controller.getDialogs();
+    controller.getToken();
     super.initState();
   }
 

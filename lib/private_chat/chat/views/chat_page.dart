@@ -1,4 +1,5 @@
 import 'package:chat/private_chat/chat/views/chat_view.dart';
+import 'package:chat/private_chat/dialog/controller/dialog_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,9 +16,10 @@ class _ChatPageState extends State<ChatPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   final controller = Get.put<ChatController>(ChatController());
+  final newcontroller = Get.find<DialogController>();
   @override
   void initState() {
-    controller.getMessages();
+    controller.getMessages(newcontroller.tokenModel.value!.access!);
     super.initState();
   }
 
@@ -34,7 +36,7 @@ class _ChatPageState extends State<ChatPage> {
         appBar: AppBar(
           title: const Center(child: Text('Chat')),
         ),
-        body: const ChatView(),
+        body: ChatView(),
       ),
     );
   }

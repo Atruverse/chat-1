@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-import '../../../constant/constant.dart';
 import '../models/chat_model.dart';
 
-class DialogRepository {
-  Future<Either<String, ChatModel>> getMessage() async {
+class ChatRepository {
+  Future<Either<String, ChatModel>> getMessage(String token) async {
     final dio = Dio();
     String apiUrl = 'https://atrovers.iran.liara.run/chat/messages/2/';
     try {

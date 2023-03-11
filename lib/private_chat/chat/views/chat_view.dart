@@ -11,7 +11,7 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.initailLoaing.value
-        ? const CircularProgressIndicator()
+        ? const Center(child: CircularProgressIndicator())
         : Column(
             children: [_buildChatCard(context), _buildSendMsg()],
           ));

@@ -9,9 +9,9 @@ class ChatController extends GetxController {
   Rxn<ChatModel> dialogModel = Rxn<ChatModel>();
   final ChatRepository _dialogRepository = ChatRepository();
   RxBool initApiError = false.obs;
-  Future<void> getMessages() async {
+  Future<void> getMessages(String token) async {
     initailLoaing(true);
-    final resultOrException = await _dialogRepository.getMessage();
+    final resultOrException = await _dialogRepository.getMessage(token);
     resultOrException.fold((l) {
       initApiError(true);
     }, (r) {
