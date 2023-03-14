@@ -49,11 +49,15 @@ class ChatView extends StatelessWidget {
           shrinkWrap: true,
           itemCount: controller.chatList.length,
           itemBuilder: (BuildContext context, int index) {
-            return OwnMsgWidget(
-                imageUrl:
-                    'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',
-                msgText: controller.chatList[index].text!,
-                userName: controller.chatList[index].sender.toString());
+            return StreamBuilder(
+                // stream: controller.dialogRepository.getMessage(token),
+                builder: (context, snapshot) {
+              return OwnMsgWidget(
+                  imageUrl:
+                      'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',
+                  msgText: snapshot.hasData ? '${snapshot.data}' : '',
+                  userName: controller.chatList[index].sender.toString());
+            });
             // OtherMsgWidget(
             //     imageUrl:
             //         'https://www.irannaz.com/user_files/image/image51/0.585620001346001694_irannaz_com.jpg',

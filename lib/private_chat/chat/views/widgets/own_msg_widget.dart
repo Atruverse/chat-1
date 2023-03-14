@@ -23,8 +23,8 @@ class OwnMsgWidget extends StatelessWidget {
 
   Widget chatCard(BuildContext context) {
     return Container(
-      width: (MediaQuery.of(context).size.width) - 150,
-      padding: const EdgeInsets.all(8),
+      // width: (MediaQuery.of(context).size.width) - 150,
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(10),

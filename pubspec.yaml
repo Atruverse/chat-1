@@ -39,6 +39,7 @@ dependencies:
   json_annotation: ^4.8.0
   dio: ^5.0.1
   dartz: ^0.10.1
+  web_socket_channel: ^2.3.0
 
 dev_dependencies:
   flutter_test:

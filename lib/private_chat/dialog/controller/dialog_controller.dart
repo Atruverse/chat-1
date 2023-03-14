@@ -6,18 +6,20 @@ import '../repository/dialog_repository.dart';
 import '../repository/token_repository.dart';
 
 class DialogController extends GetxController {
-  RxBool initailLoaing = false.obs;
+  RxBool initailLoading = false.obs;
   Rxn<DialogModel> dialogModel = Rxn<DialogModel>();
   final DialogRepository _dialogRepository = DialogRepository();
   Rxn<TokenResponseModel> tokenModel = Rxn<TokenResponseModel>();
   final TokenRepository _tokenRepository = TokenRepository();
   RxBool initApiError = false.obs;
   Future<void> getToken() async {
-    initailLoaing(true);
+    initailLoading(true);
     final resultOrException = await _tokenRepository.getToken();
     resultOrException.fold((l) {
+      print('we have error${l.toString()}');
       initApiError(true);
     }, (r) {
+      print('we don\'t have error ${r.access}');
       tokenModel(r);
       getDialogs(r.access!);
       initApiError(false);
@@ -25,13 +27,15 @@ class DialogController extends GetxController {
   }
 
   Future<void> getDialogs(String token) async {
-    initailLoaing(true);
+    initailLoading(true);
     final resultOrException = await _dialogRepository.getDialogs(token);
     resultOrException.fold((l) {
+      print('we have errror$l');
       initApiError(true);
     }, (r) {
+      print('done');
       dialogModel(r);
-      initailLoaing(false);
+      initailLoading(false);
       initApiError(false);
     });
   }

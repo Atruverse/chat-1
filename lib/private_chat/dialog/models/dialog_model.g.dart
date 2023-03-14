@@ -9,7 +9,7 @@ part of 'dialog_model.dart';
 DialogModel _$DialogModelFromJson(Map<String, dynamic> json) => DialogModel(
       count: json['count'] as int?,
       results: (json['results'] as List<dynamic>?)
-          ?.map((e) => Result.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Results.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -19,27 +19,51 @@ Map<String, dynamic> _$DialogModelToJson(DialogModel instance) =>
       'results': instance.results,
     };
 
-Result _$ResultFromJson(Map<String, dynamic> json) => Result(
+Results _$ResultsFromJson(Map<String, dynamic> json) => Results(
       id: json['id'] as int?,
-      user1: json['user1'] as int?,
-      user2: json['user2'] as int?,
-      userInfo: json['userInfo'] == null
+      created: json['created'] as String?,
+      modified: json['modified'] as String?,
+      lastMsg: json['lastMsg'] == null
           ? null
-          : UserInfo.fromJson(json['userInfo'] as Map<String, dynamic>),
-      lastMessage: json['lastMessage'] as String?,
-      unreadCount: json['unreadCount'] as int?,
+          : LastMsg.fromJson(json['lastMsg'] as Map<String, dynamic>),
+      unreadMsgCount: json['unreadMsgCount'] as int?,
+      chaterProfile: json['chaterProfile'] == null
+          ? null
+          : ChaterProfile.fromJson(
+              json['chaterProfile'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
+Map<String, dynamic> _$ResultsToJson(Results instance) => <String, dynamic>{
       'id': instance.id,
-      'user1': instance.user1,
-      'user2': instance.user2,
-      'userInfo': instance.userInfo,
-      'lastMessage': instance.lastMessage,
-      'unreadCount': instance.unreadCount,
+      'created': instance.created,
+      'modified': instance.modified,
+      'lastMsg': instance.lastMsg,
+      'unreadMsgCount': instance.unreadMsgCount,
+      'chaterProfile': instance.chaterProfile,
     };
 
-UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
+LastMsg _$LastMsgFromJson(Map<String, dynamic> json) => LastMsg(
+      id: json['id'] as int?,
+      text: json['text'] as String?,
+      created: json['created'] as String?,
+      modified: json['modified'] as String?,
+      read: json['read'] as bool?,
+      sender: json['sender'] as int?,
+      recipient: json['recipient'] as int?,
+    );
+
+Map<String, dynamic> _$LastMsgToJson(LastMsg instance) => <String, dynamic>{
+      'id': instance.id,
+      'text': instance.text,
+      'created': instance.created,
+      'modified': instance.modified,
+      'read': instance.read,
+      'sender': instance.sender,
+      'recipient': instance.recipient,
+    };
+
+ChaterProfile _$ChaterProfileFromJson(Map<String, dynamic> json) =>
+    ChaterProfile(
       id: json['id'] as int?,
       user: json['user'] as int?,
       image: json['image'] as String?,
@@ -47,7 +71,8 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       email: json['email'] as String?,
     );
 
-Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$ChaterProfileToJson(ChaterProfile instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'user': instance.user,
       'image': instance.image,
