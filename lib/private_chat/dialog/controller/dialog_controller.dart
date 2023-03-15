@@ -1,11 +1,16 @@
 import 'package:chat/private_chat/dialog/models/token_response_model.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
 import '../models/dialog_model.dart';
 import '../repository/dialog_repository.dart';
 import '../repository/token_repository.dart';
 
 class DialogController extends GetxController {
+  WebSocketChannel? channel;
   RxBool initailLoading = false.obs;
   Rxn<DialogModel> dialogModel = Rxn<DialogModel>();
   final DialogRepository _dialogRepository = DialogRepository();
@@ -19,7 +24,16 @@ class DialogController extends GetxController {
       print('we have error${l.toString()}');
       initApiError(true);
     }, (r) {
-      print('we don\'t have error ${r.access}');
+      print(r.access);
+
+      channel = IOWebSocketChannel.connect(
+        'wss://atrovers.iran.liara.run/chat_ws/${r.id}/',
+        // headers: {
+        //   HttpHeaders.authorizationHeader: 'Bearer ${r.access}',
+        //   HttpHeaders.connectionHeader: 'Upgrade',
+        //   HttpHeaders.upgradeHeader: 'websocket',
+        // },
+      );
       tokenModel(r);
       getDialogs(r.access!);
       initApiError(false);
