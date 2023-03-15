@@ -28,11 +28,6 @@ class DialogController extends GetxController {
 
       channel = IOWebSocketChannel.connect(
         'wss://atrovers.iran.liara.run/chat_ws/${r.id}/',
-        // headers: {
-        //   HttpHeaders.authorizationHeader: 'Bearer ${r.access}',
-        //   HttpHeaders.connectionHeader: 'Upgrade',
-        //   HttpHeaders.upgradeHeader: 'websocket',
-        // },
       );
       tokenModel(r);
       getDialogs(r.access!);
