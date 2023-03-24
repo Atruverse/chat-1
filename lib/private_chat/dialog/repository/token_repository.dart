@@ -2,14 +2,15 @@ import 'package:chat/private_chat/dialog/models/token_request_model.dart';
 import 'package:chat/private_chat/dialog/models/token_response_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'dart:convert';
 
 class TokenRepository {
+  int? myId;
   TokenResponseModel getDialogResult = TokenResponseModel();
   Future<Either<String, TokenResponseModel>> getToken() async {
     final dio = Dio();
     String apiUrl = 'https://atrovers.iran.liara.run/account/token/';
     try {
+      // ignore: unused_local_variable
       final dialogs = await dio
           .post(apiUrl,
               data: TokenRequestModel(
@@ -18,6 +19,7 @@ class TokenRepository {
           .then((value) {
         getDialogResult =
             TokenResponseModel.fromJson(value.data as Map<String, dynamic>);
+        myId = getDialogResult.id;
       });
 
       return Right(getDialogResult);

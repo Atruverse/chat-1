@@ -1,21 +1,32 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'dialog_model.g.dart';
-
-@JsonSerializable()
-@JsonSerializable()
 class DialogModel {
   int? count;
 
   List<Results>? results;
 
   DialogModel({this.count, this.results});
-  factory DialogModel.fromJson(Map<String, dynamic> data) =>
-      _$DialogModelFromJson(data);
-  Map<String, dynamic> toJson() => _$DialogModelToJson(this);
+
+  DialogModel.fromJson(Map<String, dynamic> json) {
+    count = json['count'];
+
+    if (json['results'] != null) {
+      results = <Results>[];
+      json['results'].forEach((v) {
+        results!.add(Results.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['count'] = count;
+
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-@JsonSerializable()
 class Results {
   int? id;
   String? created;
@@ -32,12 +43,34 @@ class Results {
       this.unreadMsgCount,
       this.chaterProfile});
 
-  factory Results.fromJson(Map<String, dynamic> data) =>
-      _$ResultsFromJson(data);
-  Map<String, dynamic> toJson() => _$ResultsToJson(this);
+  Results.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    created = json['created'];
+    modified = json['modified'];
+    lastMsg =
+        json['last_msg'] != null ? LastMsg.fromJson(json['last_msg']) : null;
+    unreadMsgCount = json['unread_msg_count'];
+    chaterProfile = json['chater_profile'] != null
+        ? ChaterProfile.fromJson(json['chater_profile'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['created'] = created;
+    data['modified'] = modified;
+    if (lastMsg != null) {
+      data['last_msg'] = lastMsg!.toJson();
+    }
+    data['unread_msg_count'] = unreadMsgCount;
+    if (chaterProfile != null) {
+      data['chater_profile'] = chaterProfile!.toJson();
+    }
+    return data;
+  }
 }
 
-@JsonSerializable()
 class LastMsg {
   int? id;
   String? text;
@@ -56,12 +89,29 @@ class LastMsg {
       this.sender,
       this.recipient});
 
-  factory LastMsg.fromJson(Map<String, dynamic> data) =>
-      _$LastMsgFromJson(data);
-  Map<String, dynamic> toJson() => _$LastMsgToJson(this);
+  LastMsg.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    text = json['text'];
+    created = json['created'];
+    modified = json['modified'];
+    read = json['read'];
+    sender = json['sender'];
+    recipient = json['recipient'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['text'] = text;
+    data['created'] = created;
+    data['modified'] = modified;
+    data['read'] = read;
+    data['sender'] = sender;
+    data['recipient'] = recipient;
+    return data;
+  }
 }
 
-@JsonSerializable()
 class ChaterProfile {
   int? id;
   int? user;
@@ -71,7 +121,21 @@ class ChaterProfile {
 
   ChaterProfile({this.id, this.user, this.image, this.userName, this.email});
 
-  factory ChaterProfile.fromJson(Map<String, dynamic> data) =>
-      _$ChaterProfileFromJson(data);
-  Map<String, dynamic> toJson() => _$ChaterProfileToJson(this);
+  ChaterProfile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    user = json['user'];
+    image = json['image'];
+    userName = json['user_name'];
+    email = json['email'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user'] = user;
+    data['image'] = image;
+    data['user_name'] = userName;
+    data['email'] = email;
+    return data;
+  }
 }

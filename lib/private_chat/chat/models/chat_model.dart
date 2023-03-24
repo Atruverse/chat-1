@@ -1,36 +1,72 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'chat_model.g.dart';
-
-@JsonSerializable()
 class ChatModel {
-  ChatModel({
-    this.count,
-    this.results,
-  });
-
   int? count;
-  List<Result>? results;
+  String? next;
 
-  factory ChatModel.fromJson(Map<String, dynamic> data) =>
-      _$ChatModelFromJson(data);
-  Map<String, dynamic> toJson() => _$ChatModelToJson(this);
+  List<Results>? results;
+
+  ChatModel({this.count, this.next, this.results});
+
+  ChatModel.fromJson(Map<String, dynamic> json) {
+    count = json['count'];
+    next = json['next'];
+
+    if (json['results'] != null) {
+      results = <Results>[];
+      json['results'].forEach((v) {
+        results!.add(Results.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['count'] = count;
+    data['next'] = next;
+
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-@JsonSerializable()
-class Result {
-  Result({
-    this.sender,
-    this.recipient,
-    this.text,
-    this.read,
-  });
-
+class Results {
+  int? id;
+  String? text;
+  String? created;
+  String? modified;
+  bool? read;
   int? sender;
   int? recipient;
-  String? text;
-  bool? read;
 
-  factory Result.fromJson(Map<String, dynamic> data) => _$ResultFromJson(data);
-  Map<String, dynamic> toJson() => _$ResultToJson(this);
+  Results(
+      {this.id,
+      this.text,
+      this.created,
+      this.modified,
+      this.read,
+      this.sender,
+      this.recipient});
+
+  Results.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    text = json['text'];
+    created = json['created'];
+    modified = json['modified'];
+    read = json['read'];
+    sender = json['sender'];
+    recipient = json['recipient'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['text'] = text;
+    data['created'] = created;
+    data['modified'] = modified;
+    data['read'] = read;
+    data['sender'] = sender;
+    data['recipient'] = recipient;
+    return data;
+  }
 }

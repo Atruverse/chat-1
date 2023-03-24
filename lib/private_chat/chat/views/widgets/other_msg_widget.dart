@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OtherMsgWidget extends StatelessWidget {
   const OtherMsgWidget(
-      {super.key,
-      required this.imageUrl,
-      required this.msgText,
-      required this.userName});
-  final String imageUrl;
+      {super.key, required this.msgText, required this.userName});
+
   final String msgText;
   final String userName;
   @override
@@ -14,7 +12,7 @@ class OtherMsgWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 2.0, bottom: 4),
       child: Row(children: [
-        _buildImage(),
+        //    _buildImage(),
         const SizedBox(width: 10),
         chatCard(context)
       ]),
@@ -23,11 +21,16 @@ class OtherMsgWidget extends StatelessWidget {
 
   Widget chatCard(BuildContext context) {
     return Container(
-      width: (MediaQuery.of(context).size.width) - 150,
-      padding: const EdgeInsets.all(8),
+      constraints: BoxConstraints(maxWidth: Get.width * .75),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+            bottomRight: Radius.circular(12),
+            bottomLeft: Radius.circular(0)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -36,6 +39,7 @@ class OtherMsgWidget extends StatelessWidget {
           Text(userName),
           const SizedBox(height: 10),
           Text(
+            overflow: TextOverflow.ellipsis,
             msgText,
             textDirection: TextDirection.rtl,
             maxLines: 100,
@@ -46,33 +50,33 @@ class OtherMsgWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildImage() {
-    return CircleAvatar(
-      radius: 30,
-      backgroundColor: Colors.grey,
-      child: CircleAvatar(
-        radius: 28,
-        backgroundColor: Colors.white,
-        child: CircleAvatar(
-          radius: 25,
-          child: Container(
-            height: 55,
-            width: 55,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(43)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(43),
-              child: imageUrl.isNotEmpty
-                  ? Image.network(
-                      imageUrl,
-                      fit: BoxFit.fill,
-                      height: 55,
-                      width: 55,
-                    )
-                  : const Icon(Icons.person, size: 50),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+//   Widget _buildImage() {
+//     return CircleAvatar(
+//       radius: 30,
+//       backgroundColor: Colors.grey,
+//       child: CircleAvatar(
+//         radius: 28,
+//         backgroundColor: Colors.white,
+//         child: CircleAvatar(
+//           radius: 25,
+//           child: Container(
+//             height: 55,
+//             width: 55,
+//             decoration: BoxDecoration(borderRadius: BorderRadius.circular(43)),
+//             child: ClipRRect(
+//               borderRadius: BorderRadius.circular(43),
+//               child: imageUrl.isNotEmpty
+//                   ? Image.network(
+//                       imageUrl,
+//                       fit: BoxFit.fill,
+//                       height: 55,
+//                       width: 55,
+//                     )
+//                   : const Icon(Icons.person, size: 50),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 }

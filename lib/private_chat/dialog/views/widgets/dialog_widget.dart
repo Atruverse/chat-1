@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class DialogWidget extends StatelessWidget {
   const DialogWidget(
       {super.key,
       required this.name,
-      required this.lastMessage,
+      required this.lastSeen,
       required this.imageUrl,
       this.onTap});
   final String name;
-  final String lastMessage;
+  final String lastSeen;
   final String imageUrl;
   final Function()? onTap;
 
@@ -47,9 +49,13 @@ class DialogWidget extends StatelessWidget {
           style: const TextStyle(fontSize: 14, color: Color(0XFF000000)),
         ),
         const SizedBox(height: 8),
-        Text(
-          lastMessage,
-          style: const TextStyle(fontSize: 12, color: Color(0XFF979797)),
+        Container(
+          constraints: BoxConstraints(maxWidth: Get.width * .7),
+          child: Text(
+            overflow: TextOverflow.ellipsis,
+            lastSeen,
+            style: const TextStyle(fontSize: 12, color: Color(0XFF979797)),
+          ),
         ),
       ],
     );

@@ -4,19 +4,23 @@ import 'package:dio/dio.dart';
 import '../models/chat_model.dart';
 
 class ChatRepository {
-  Future<Either<String, ChatModel>> getMessage(String token) async {
+  static ChatModel? getMessage;
+  Future<Either<String, ChatModel>> getMessageReq(
+      String token, int user, int page) async {
     final dio = Dio();
-    String apiUrl = 'https://atrovers.iran.liara.run/chat/messages/2/';
+    String apiUrl =
+        'https://atrovers.iran.liara.run/chat/messages/$user?page=$page';
+
     try {
       dio.options.headers["Authorization"] = "Bearer $token";
       final dialogs = await dio.get(apiUrl);
-      final ChatModel getMessage = ChatModel.fromJson(
+      getMessage = ChatModel.fromJson(
         dialogs.data as Map<String, dynamic>,
       );
-
-      return Right(getMessage);
+      // print('getMessage:${dialogs.data}');
+      return Right(getMessage!);
     } catch (e) {
-      return Left(e.toString());
+      return const Left('e.toString()');
     }
   }
 }

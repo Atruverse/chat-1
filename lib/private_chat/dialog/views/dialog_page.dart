@@ -14,7 +14,8 @@ class DialogPage extends StatefulWidget {
 class _DialogPageState extends State<DialogPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  final controller = Get.put<DialogController>(DialogController());
+  final controller = Get.find<DialogController>();
+
   @override
   void initState() {
     controller.getToken();

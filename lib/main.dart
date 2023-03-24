@@ -1,3 +1,4 @@
+import 'package:chat/bindings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,11 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: MyBindings(),
       debugShowCheckedModeBanner: false,
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.light,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DialogPage(),
+      home: const DialogPage(),
     );
   }
 }

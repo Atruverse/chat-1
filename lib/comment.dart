@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: non_constant_identifier_names
 Widget ParentComment({
   required String content,
   required String image,
@@ -76,6 +77,7 @@ Widget ParentComment({
   );
 }
 
+// ignore: non_constant_identifier_names
 Padding ReplyComment({
   required String content,
   required String image,

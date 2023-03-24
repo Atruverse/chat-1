@@ -10,6 +10,7 @@ class DialogRepository {
     String apiUrl = 'https://atrovers.iran.liara.run/chat/dialogs/';
     try {
       dio.options.headers["Authorization"] = "Bearer $token";
+      // ignore: unused_local_variable
       final dialogs = await dio.get(apiUrl).then((value) {
         getDialogResult = DialogModel.fromJson(
           value.data as Map<String, dynamic>,
@@ -18,9 +19,6 @@ class DialogRepository {
 
       return Right(getDialogResult!);
     } catch (e) {
-      print('error');
-
-      print(e.toString());
       return Left(e.toString());
     }
   }
