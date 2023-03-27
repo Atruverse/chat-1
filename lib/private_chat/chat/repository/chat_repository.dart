@@ -17,7 +17,7 @@ class ChatRepository {
       getMessage = ChatModel.fromJson(
         dialogs.data as Map<String, dynamic>,
       );
-      // print('getMessage:${dialogs.data}');
+
       return Right(getMessage!);
     } catch (e) {
       return const Left('e.toString()');

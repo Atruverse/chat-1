@@ -1,25 +1,31 @@
+import 'package:chat/private_chat/chat/controller/chat_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class OwnMsgWidget extends StatelessWidget {
-  const OwnMsgWidget(
-      {super.key, required this.msgText, required this.userName});
+  const OwnMsgWidget({
+    super.key,
+    required this.msgFile,
+    this.index,
+  });
+  final bool msgFile;
+  final int? index;
 
-  final String msgText;
-  final String userName;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 2.0, bottom: 4),
       child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-        chatCard(context),
+        chatCard(context, index as int),
         const SizedBox(width: 10),
         //  _buildImage(),
       ]),
     );
   }
 
-  Widget chatCard(BuildContext context) {
+  Widget chatCard(BuildContext context, int index) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -36,16 +42,29 @@ class OwnMsgWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            userName,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            overflow: TextOverflow.ellipsis,
-            msgText,
-            maxLines: 100,
-            textDirection: TextDirection.ltr,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              msgFile
+                  ? const Icon(Icons.file_present_outlined)
+                  : const SizedBox(),
+              Text(
+                overflow: TextOverflow.ellipsis,
+                msgFile
+                    ? Get.find<ChatController>()
+                        .chatList[index]
+                        .file!
+                        .file!
+                        .split("\\")
+                        .last
+                        .replaceAll(".png", "")
+                        .toString()
+                    : Get.find<ChatController>().chatList[index].text!,
+                maxLines: 100,
+                textDirection: TextDirection.ltr,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ],
       ),

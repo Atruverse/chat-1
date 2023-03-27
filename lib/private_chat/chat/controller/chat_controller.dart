@@ -1,7 +1,10 @@
 import 'package:chat/private_chat/dialog/controller/dialog_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
 import 'dart:io';
 import '../models/chat_model.dart';
 import '../repository/chat_repository.dart';
@@ -31,11 +34,5 @@ class ChatController extends GetxController {
       initailLoaing(false);
       initApiError(false);
     });
-  }
-
-  Future pickImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return null;
-    this.image = File(image.path);
   }
 }

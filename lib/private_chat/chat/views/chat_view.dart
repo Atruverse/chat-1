@@ -1,10 +1,15 @@
 // ignore_for_file: invalid_use_of_protected_member, prefer_if_null_operators
 
+import 'dart:convert';
+
 import 'package:chat/private_chat/chat/controller/socket_controller.dart';
 import 'package:chat/private_chat/chat/repository/chat_repository.dart';
 import 'package:chat/private_chat/chat/views/widgets/own_msg_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+
 import '../../dialog/controller/dialog_controller.dart';
 import '../controller/chat_controller.dart';
 import 'widgets/other_msg_widget.dart';
@@ -71,6 +76,19 @@ class _ChatViewState extends State<ChatView> {
           Expanded(
               child: TextFormField(
             controller: Get.find<DialogController>().cont,
+            onChanged: (str) {
+              if (str.isNotEmpty) {
+                Get.find<SocketController>()
+                    .channel!
+                    .sink
+                    .add(jsonEncode({'msg_type': 5}));
+              } else {
+                Get.find<SocketController>()
+                    .channel!
+                    .sink
+                    .add(jsonEncode({'msg_type': 10}));
+              }
+            },
             decoration: const InputDecoration(
                 hintText: "Type here ...",
                 border: OutlineInputBorder(
@@ -79,7 +97,8 @@ class _ChatViewState extends State<ChatView> {
           )),
           IconButton(
               onPressed: () {
-                controller.pickImage();
+                Get.find<SocketController>().uploadFile(widget.currentUser);
+                // Get.find<SocketController>().sendMessage(widget.currentUser);
               },
               icon: const Icon(
                 Icons.image,
@@ -87,7 +106,9 @@ class _ChatViewState extends State<ChatView> {
               )),
           IconButton(
               onPressed: () {
-                Get.find<SocketController>().sendMessage(widget.currentUser);
+                Get.find<SocketController>().sendMessage(
+                  widget.currentUser,
+                );
               },
               icon: const Icon(
                 Icons.send,
@@ -108,34 +129,37 @@ class _ChatViewState extends State<ChatView> {
             reverse: true,
             itemCount: controller.chatList.value.length,
             itemBuilder: (ctx, index) {
+              bool msgFile =
+                  Get.find<ChatController>().chatList.value[index].file != null
+                      ? true
+                      : false;
+              bool msgSelcet = false;
+              if (msgFile) {
+                msgSelcet = Get.find<ChatController>()
+                        .chatList
+                        .value[index]
+                        .uploaded_by ==
+                    Get.find<DialogController>().id;
+              } else {
+                msgSelcet =
+                    Get.find<ChatController>().chatList.value[index].sender ==
+                        Get.find<DialogController>().id;
+              }
               return Column(
                 children: [
-                  Get.find<ChatController>().chatList.value[index].sender ==
-                          Get.find<DialogController>().id
+                  msgSelcet
                       ? OwnMsgWidget(
-                          msgText: Get.find<ChatController>()
-                              .chatList
-                              .value[index]
-                              .text!,
-                          userName: Get.find<ChatController>()
-                              .chatList
-                              .value[index]
-                              .sender
-                              .toString())
+                          msgFile: msgFile,
+                          index: index,
+                        )
                       : OtherMsgWidget(
-                          msgText: Get.find<ChatController>()
-                              .chatList
-                              .value[index]
-                              .text!,
-                          userName: Get.find<ChatController>()
-                              .chatList
-                              .value[index]
-                              .sender
-                              .toString()),
+                          msgFile: msgFile,
+                          index: index,
+                        ),
                   controller.chatList.value.length - 1 == index &&
                           ChatRepository.getMessage!.next != null
-                      ? CircularProgressIndicator()
-                      : SizedBox()
+                      ? const CircularProgressIndicator()
+                      : const SizedBox()
                 ],
               );
             })),

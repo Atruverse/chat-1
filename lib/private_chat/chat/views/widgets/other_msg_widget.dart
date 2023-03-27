@@ -1,12 +1,15 @@
+import 'package:chat/private_chat/chat/controller/chat_controller.dart';
+import 'package:chat/private_chat/chat/controller/socket_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class OtherMsgWidget extends StatelessWidget {
-  const OtherMsgWidget(
-      {super.key, required this.msgText, required this.userName});
+  const OtherMsgWidget({super.key, required this.msgFile, this.index});
 
-  final String msgText;
-  final String userName;
+  final bool msgFile;
+  final int? index;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,12 +17,16 @@ class OtherMsgWidget extends StatelessWidget {
       child: Row(children: [
         //    _buildImage(),
         const SizedBox(width: 10),
-        chatCard(context)
+        chatCard(context, index)
       ]),
     );
   }
 
-  Widget chatCard(BuildContext context) {
+  Widget chatCard(BuildContext context, index) {
+    List<String> linkParts =
+        Get.find<ChatController>().chatList[index].file != null
+            ? Get.find<ChatController>().chatList[index].file!.file!.split('/')
+            : [];
     return Container(
       constraints: BoxConstraints(maxWidth: Get.width * .75),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -36,14 +43,29 @@ class OtherMsgWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(userName),
-          const SizedBox(height: 10),
-          Text(
-            overflow: TextOverflow.ellipsis,
-            msgText,
-            textDirection: TextDirection.rtl,
-            maxLines: 100,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              msgFile
+                  ? InkWell(
+                      onTap: () => Get.find<SocketController>().downloadFile(
+                          Get.find<ChatController>()
+                              .chatList[index]
+                              .file!
+                              .file
+                              .toString()),
+                      child: const Icon(Icons.file_present_outlined))
+                  : const SizedBox(),
+              Text(
+                overflow: TextOverflow.ellipsis,
+                msgFile
+                    ? linkParts[linkParts.length - 1].split('.')[0]
+                    : Get.find<ChatController>().chatList[index].text!,
+                maxLines: 100,
+                textDirection: TextDirection.ltr,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ],
       ),

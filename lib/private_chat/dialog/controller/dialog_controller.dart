@@ -1,7 +1,8 @@
 import 'package:chat/private_chat/dialog/models/token_response_model.dart';
-import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../models/dialog_model.dart';
@@ -11,6 +12,7 @@ import '../repository/token_repository.dart';
 class DialogController extends GetxController {
   int? id;
   TextEditingController cont = TextEditingController();
+
   int? userIchat;
   WebSocketChannel? channel;
   RxBool initailLoading = false.obs;
@@ -19,6 +21,7 @@ class DialogController extends GetxController {
   Rxn<TokenResponseModel> tokenModel = Rxn<TokenResponseModel>();
   final TokenRepository tokenRepository = TokenRepository();
   RxBool initApiError = false.obs;
+
   Future<void> getToken() async {
     initailLoading(true);
     final resultOrException = await tokenRepository.getToken();
